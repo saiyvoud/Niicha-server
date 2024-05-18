@@ -7,11 +7,11 @@ export const GeneratePassword = async (password) => {
 };
 export const GenerateToken = async (data) => {
   var paylod = {
-    id: await encrypt(data.id),
+    id: await encrypt(data.id.toString()),
     role: await encrypt(data.role),
   };
   var paylod_refresh = {
-    id: await encrypt(data.id),
+    id: await encrypt(data.id.toString()),
     role: await encrypt(paylod.role),
   };
   const token = jwt.sign(paylod, SecreatKey, { expiresIn: "2h" });
@@ -22,11 +22,11 @@ export const GenerateToken = async (data) => {
   return { token, refreshToken };
 };
 export const encrypt = async (data) => {
-  const encrypt = CryptoJS.AES.encrypt(data, SECREAT_KEY).toString();
+  const encrypt = CryptoJS.AES.encrypt(data, SecreatKey).toString();
   return encrypt;
 };
 export const Decrypt = async (data) => {
-  const decrypt = CryptoJS.AES.decrypt(data, SECREAT_KEY);
+  const decrypt = CryptoJS.AES.decrypt(data, SecreatKey);
   const result = decrypt.toString(CryptoJS.enc.Utf8);
   return result;
 };
