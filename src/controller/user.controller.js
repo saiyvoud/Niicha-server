@@ -62,7 +62,7 @@ export default class UserController {
         if (password != decryptPassword) {
           return SendError(res, 401,"Password Not Match");
         }
-        console.log(result[0]);
+        
         var data ={
             id: result[0]["UID"],
             role: Role.employee
