@@ -54,7 +54,7 @@ export default class UserController {
       const mysql = "Select * from user where username=?";
       con.query(mysql, username, async function (err, result) {
         if (err) throw err;
-        if (result === null || result === undefined) {
+        if (result === null || result === undefined || result.length > 0) {
           return res.status(404).json({ success: false, message: "Not Found" });
         }
         const decryptPassword = await Decrypt(result[0]['password'])
