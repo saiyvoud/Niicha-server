@@ -1,5 +1,5 @@
 import con from "../config/db.js";
-import { Role, SMessage } from "../service/message.js";
+import { EMessage, Role, SMessage } from "../service/message.js";
 import { SendCreate, SendError, SendSuccess } from "../service/response.js";
 import {
   Decrypt,
@@ -9,6 +9,41 @@ import {
 import { ValidateData } from "../service/validate.js";
 
 export default class UserController {
+  static async getAll(req, res) {
+    try {
+      const mysql = "select * from user";
+      con.query(mysql, function (err, result) {
+        if (err) return SendError(res, 400, EMessage.NotFound + " user");
+        return SendSuccess(res, SMessage.selectAll, result);
+      });
+    } catch (error) {
+      return SendError(res, 500, EMessage.Server, error);
+    }
+  }
+  static async getOne(req, res) {
+    try {
+      const userId = req.params.userId;
+      const mysql = "select * from user where UID=?";
+      con.query(mysql, userId, function (err, result) {
+        if (err) return SendError(res, 400, EMessage.NotFound + " user");
+        return SendSuccess(res, SMessage.selectOne, result[0]);
+      });
+    } catch (error) {
+      return SendError(res, 500, EMessage.Server, error);
+    }
+  }
+  static async getUserInfo(req, res) {
+    try {
+      const userId = req.user;
+      const mysql = "select * from user where UID=?";
+      con.query(mysql, userId, function (err, result) {
+        if (err) return SendError(res, 400, EMessage.NotFound + " user");
+        return SendSuccess(res, SMessage.selectOne, result);
+      });
+    } catch (error) {
+      return SendError(res, 500, EMessage.Server, error);
+    }
+  }
   static async register(req, res) {
     try {
       const { username, password } = req.body;
@@ -50,10 +85,6 @@ export default class UserController {
       if (validate.length > 0) {
         return SendError(res, 400, "Please input: " + validate.join(","));
       }
-      // var datetime = new Date()
-      //   .toISOString()
-      //   .replace(/T/, " ") // replace T with a space
-      //   .replace(/\..+/, "");
 
       const mysql = "Select * from user where username=?";
       con.query(mysql, username, async function (err, result) {
@@ -83,6 +114,36 @@ export default class UserController {
       });
     } catch (error) {
       return SendError(res, 500, "ErrorServer Internal", error);
+    }
+  }
+  static async UpdateUser(req, res) {
+    try {
+      const userId = req.params.userId;
+      const mysql = "Select * from user where UID=?";
+
+      const { username } = req.body;
+      con.query(mysql, userId, function (err, result) {
+        if (err) return SendError(res, 400, EMessage.NotFound + " user");
+        const update = "UPDATE user set username =? WHERE UID =?";
+        con.query(update, [username, userId], function (error, result) {
+          if (error) return SendError(res, 400, "Faild Update User", error);
+          return SendSuccess(res, SMessage.updated);
+        });
+      });
+    } catch (error) {
+      return SendError(res, 500, EMessage.Server, error);
+    }
+  }
+  static async deleteUser(req, res) {
+    try {
+      const userId = req.params.userId;
+      const mysql = `DELETE FROM user WHERE UID = ?`;
+      con.query(mysql, userId, function (err) {
+        if (err) throw err;
+        return SendSuccess(res, SMessage.delete);
+      });
+    } catch (error) {
+      return SendError(res, 500, EMessage.Server, error);
     }
   }
 }
