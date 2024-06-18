@@ -14,8 +14,12 @@ export const SMessage = {
 };
 export const EMessage = {
   NotFound : "Not Found",
+  BadRequest: "Bad Request",
+  ErrorUploadImage: "Error Upload Image",
   Server: "Server Error Internal",
   Alread: "Already",
   PleaseInput: "Please Input: ",
-  ErrorInsert: "Error Insert"
+  ErrorInsert: "Error Insert",
+  ErrorUpdate: "Error Update",
+  ErrorDelete: "Error Delete",
 }

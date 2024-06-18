@@ -22,9 +22,9 @@ export default class UserController {
   }
   static async getOne(req, res) {
     try {
-      const userId = req.params.userId;
+      const UID = req.params.UID;
       const mysql = "select * from user where UID=?";
-      con.query(mysql, userId, function (err, result) {
+      con.query(mysql, UID, function (err, result) {
         if (err) return SendError(res, 400, EMessage.NotFound + " user");
         return SendSuccess(res, SMessage.selectOne, result[0]);
       });
@@ -34,9 +34,9 @@ export default class UserController {
   }
   static async getUserInfo(req, res) {
     try {
-      const userId = req.user;
+      const UID = req.user;
       const mysql = "select * from user where UID=?";
-      con.query(mysql, userId, function (err, result) {
+      con.query(mysql, UID, function (err, result) {
         if (err) return SendError(res, 400, EMessage.NotFound + " user");
         return SendSuccess(res, SMessage.selectOne, result);
       });
@@ -118,14 +118,14 @@ export default class UserController {
   }
   static async UpdateUser(req, res) {
     try {
-      const userId = req.params.userId;
+      const UID = req.params.UID;
       const mysql = "Select * from user where UID=?";
 
       const { username } = req.body;
-      con.query(mysql, userId, function (err, result) {
+      con.query(mysql, UID, function (err, result) {
         if (err) return SendError(res, 400, EMessage.NotFound + " user");
         const update = "UPDATE user set username =? WHERE UID =?";
-        con.query(update, [username, userId], function (error, result) {
+        con.query(update, [username, UID], function (error, result) {
           if (error) return SendError(res, 400, "Faild Update User", error);
           return SendSuccess(res, SMessage.updated);
         });
@@ -136,9 +136,9 @@ export default class UserController {
   }
   static async deleteUser(req, res) {
     try {
-      const userId = req.params.userId;
+      const UID = req.params.UID;
       const mysql = `DELETE FROM user WHERE UID = ?`;
-      con.query(mysql, userId, function (err) {
+      con.query(mysql, UID, function (err) {
         if (err) throw err;
         return SendSuccess(res, SMessage.delete);
       });
