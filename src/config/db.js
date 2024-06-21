@@ -1,10 +1,10 @@
 import mysql from "mysql";
 
 const con = mysql.createConnection({
-  host: "mysql-171876-0.cloudclusters.net",
-  port: "19020",
+  host: "mysql-176208-0.cloudclusters.net",
+  port: "19894",
   user: "admin",
-  password: "Fzqy0WBa",
+  password: "aviT3RQD",
   database: "NiichaDB",
 });
 con.connect((err) => {

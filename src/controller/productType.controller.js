@@ -1,6 +1,6 @@
-import con from "../config/db";
-import { EMessage, SMessage } from "../service/message";
-import { SendError, SendSuccess } from "../service/response";
+import con from "../config/db.js";
+import { EMessage, SMessage } from "../service/message.js";
+import { SendError, SendSuccess } from "../service/response.js";
 
 export default class ProductTypeController {
   static async getAll(req, res) {

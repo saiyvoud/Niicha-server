@@ -3,6 +3,11 @@ export const Role = {
   admin: "admin",
   superadmin: "superadmin",
 };
+export const OrderStatus ={
+  pedding: "ກຳລັງດຳເນີນ",
+  success: "ສຳເລັດ",
+  cancel: "ຍົກເລີກ",
+}
 export const SMessage = {
   Register: "Register Success",
   Login: "Login Success",

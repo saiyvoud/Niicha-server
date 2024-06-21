@@ -1,8 +1,8 @@
-import { EMessage, SMessage } from "../service/message";
-import { SendCreate, SendError, SendSuccess } from "../service/response";
-import { ValidateData } from "../service/validate";
-import con from "../config/db";
-import { UploadToCloudinary } from "../config/cloudinary";
+import { EMessage, SMessage } from "../service/message.js";
+import { SendCreate, SendError, SendSuccess } from "../service/response.js";
+import { ValidateData } from "../service/validate.js";
+import con from "../config/db.js";
+import { UploadToCloudinary } from "../config/cloudinary.js";
 export default class ProductController {
   static async getAll(req, res) {
     try {

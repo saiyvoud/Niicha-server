@@ -44,6 +44,7 @@ export default class UserController {
       return SendError(res, 500, EMessage.Server, error);
     }
   }
+ 
   static async register(req, res) {
     try {
       const { username, password } = req.body;
