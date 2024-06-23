@@ -1,4 +1,5 @@
 import express from "express";
+import EmployeeController from "../controller/employee.controller.js";
 import OrderController from "../controller/order.controller.js";
 import OrderDetailController from "../controller/orderDetail.controller.js";
 import ProductController from "../controller/product.controller.js";
@@ -42,4 +43,10 @@ routes.get("/order/getAll",OrderDetailController.getAll);
 routes.get("/order/getOne/:ODID",OrderDetailController.getOne);
 routes.post("/order/insert",OrderDetailController.insert);
 routes.delete("/order/delete/:ODID",OrderDetailController.deleteOrderDetail);
+//========= Employee =======
+routes.get("/employee/getAll",EmployeeController.getAll);
+routes.get("/employee/getOne/:EID",EmployeeController.getOne);
+routes.post("/employee/insert",EmployeeController.insert);
+routes.put("/employee/update/:EID",EmployeeController.updateEmployee);
+routes.delete("/employee/delete/:EID",EmployeeController.deleteEmployee);
 export default routes;
