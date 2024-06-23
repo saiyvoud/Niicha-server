@@ -8,6 +8,7 @@ export default class ProductController {
     try {
       const product = "select * from product";
       con.query(product, function (err, result) {
+        if(err) console.log(err);
         if (err) return SendError(res, 400, EMessage.NotFound, err);
         return SendSuccess(res, SMessage.selectAll, result);
       });
@@ -44,7 +45,7 @@ export default class ProductController {
         .toISOString()
         .replace(/T/, " ")
         .replace(/\..+/, "");
-      const image_url = await UploadToCloudinary(file.image.data);
+      const image_url = await UploadToCloudinary(file.file.data);
       if (!image_url) {
         return SendError(res, 404, "Error Upload Image");
       }
@@ -59,12 +60,13 @@ export default class ProductController {
         }
       );
     } catch (error) {
+      console.log(error);
       return SendError(res, 500, EMessage.Server, error);
     }
   }
   static async updateProduct(req, res) {
     try {
-      const productId = req.params.productId;
+      const { PID } = req.params;
       const { product_type, name, detail, price } = req.body;
       const validate = await ValidateData({
         product_type,
@@ -76,25 +78,30 @@ export default class ProductController {
         return SendError(res, 400, EMessage.PleaseInput + validate.join(","));
       }
       const file = req.files;
-      const image_url = await UploadToCloudinary(file.image.data);
+      const image_url = await UploadToCloudinary(file.file.data);
       if (!image_url) {
         return SendError(res, 404, "Error Upload Image");
       }
       const checkProductType = "select * from product_type where PTID=?";
       con.query(checkProductType, product_type, (err) => {
         if (err) return SendError(res, 400, EMessage.ErrorUpdate, err);
+        var dateTime = new Date()
+        .toISOString()
+        .replace(/T/, " ")
+        .replace(/\..+/, "");
         const update =
-          "update prduct set product_type=?,name=?,detail=? ,price=? ,image=?,updatedAt=? Where PID=? ";
+          "update product set product_type=?,name=?,detail=? ,price=? ,image=?,updatedAt=? Where PID=? ";
         con.query(
           update,
-          [product_type, name, detail, price, image_url, dateTime, productId],
+          [product_type, name, detail, price, image_url, dateTime, PID],
           (err) => {
-            if (err) return SendError(err, 400, EMessage.ErrorUpdate, err);
+            if (err) return SendError(res, EMessage.ErrorUpdate, err);
             return SendSuccess(res, SMessage.updated);
           }
         );
       });
     } catch (error) {
+      console.log(error);
       return SendError(res, 500, EMessage.Server, error);
     }
   }
