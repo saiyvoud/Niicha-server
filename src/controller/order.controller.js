@@ -28,6 +28,48 @@ export default class OrderController {
       return SendError(res, 500, EMessage.Server, error);
     }
   }
+  static async insertNoTable(req, res) {
+    try {
+      const { noTable, totalPrice } = req.body;
+      const validate = await ValidateData({ noTable, totalPrice });
+      if (validate.length > 0) {
+        return SendError(res, 400, EMessage.PleaseInput + validate.join(","));
+      }
+      const file = req.files;
+      const image_url = await UploadToCloudinary(file.billQR.data);
+      if (!image_url) return SendError(res, 404, EMessage.ErrorUploadImage);
+
+      var dateTime = new Date()
+        .toISOString()
+        .replace(/T/, " ")
+        .replace(/\..+/, "");
+      const checkTable = "Selece * from tables where noTable=?";
+      con.query(checkTable, noTable, (err, result) => {
+        if (err) return SendError(res, 404, EMessage.NotFound + " table");
+        if (!result[0])
+          return SendError(res, 404, EMessage.NotFound + " table");
+        const mysql =
+          "insert into orders (table_id,totalPrice,billOR,status,createdAt,updatedAt) values (?,?,?,?,?)";
+        con.query(
+          mysql,
+          [
+            result[0]['table_id'],
+            totalPrice,
+            image_url,
+            OrderStatus.pedding,
+            dateTime,
+            dateTime,
+          ],
+          (err) => {
+            if (err) return SendError(res, 404, EMessage.ErrorInsert, err);
+            return SendSuccess(res, SMessage.Insert);
+          }
+        );
+      });
+    } catch (error) {
+      return SendError(res, 500, EMessage.Server, error);
+    }
+  }
   static async insert(req, res) {
     try {
       const { table_id, totalPrice } = req.body;
