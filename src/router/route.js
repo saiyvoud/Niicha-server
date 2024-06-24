@@ -29,6 +29,7 @@ routes.delete("/product/delete/:PID",ProductController.deleteProduct);
 // ======= table =======
 routes.get("/tables/getAll",TableController.getAll);
 routes.get("/tables/getOne/:TID",TableController.getOne);
+routes.get("/tables/getOne/:noTable",TableController.getOneByNoTable);
 routes.post("/tables/insert",TableController.insert);
 routes.put("/tables/update/:TID",TableController.updateTable);
 routes.delete("/tables/delete/:TID",TableController.deleteTable);
@@ -36,6 +37,7 @@ routes.delete("/tables/delete/:TID",TableController.deleteTable);
 routes.get("/order/getAll",OrderController.getAll);
 routes.get("/order/getOne/:OID",OrderController.getOne);
 routes.post("/order/insert",OrderController.insert);
+routes.post("/order/insertNoTable",OrderController.insertNoTable);
 routes.put("/order/update/:OID",OrderController.updateOrderStatus);
 routes.delete("/order/delete/:OID",OrderController.deleteOrder);
 // ======== order detail =======

@@ -15,6 +15,18 @@ export default class TableController {
       return SendError(res, 500, EMessage.Server, error);
     }
   }
+  static async getOneByNoTable(req, res) {
+    try {
+      const noTable = req.params.noTable;
+      const mysql = "select * from table where noTable=?";
+      con.query(mysql, noTable, function (err, result) {
+        if (err) return SendError(res, 400, EMessage.NotFound, err);
+        return SendSuccess(res, SMessage.selectOne, result[0]);
+      });
+    } catch (error) {
+      return SendError(res, 500, EMessage.Server, error);
+    }
+  }
   static async getOne(req, res) {
     try {
       const tableId = req.params.tableId;

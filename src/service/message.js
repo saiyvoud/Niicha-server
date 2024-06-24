@@ -4,9 +4,9 @@ export const Role = {
   superadmin: "superadmin",
 };
 export const OrderStatus ={
-  pedding: "ກຳລັງດຳເນີນ",
-  success: "ສຳເລັດ",
-  cancel: "ຍົກເລີກ",
+  pedding: "padding",
+  success: "success",
+  cancel: "cancel",
 }
 export const SMessage = {
   Register: "Register Success",
