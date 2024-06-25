@@ -23,11 +23,13 @@ routes.delete("/product_type/delete/:PTID",ProductTypeController.deleteProductTy
 // ======== product ========
 routes.get("/product/getAll",ProductController.getAll);
 routes.get("/product/getOne/:PID",ProductController.getOne);
+routes.get("/product/search",ProductController.searchProduct);
 routes.post("/product/insert",ProductController.insert);
 routes.put("/product/update/:PID",ProductController.updateProduct);
 routes.delete("/product/delete/:PID",ProductController.deleteProduct);
 // ======= table =======
 routes.get("/tables/getAll",TableController.getAll);
+
 routes.get("/tables/getOne/:TID",TableController.getOne);
 routes.get("/tables/getOne/:noTable",TableController.getOneByNoTable);
 routes.post("/tables/insert",TableController.insert);

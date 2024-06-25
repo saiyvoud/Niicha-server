@@ -14,6 +14,7 @@ export const SMessage = {
   Insert: "Insert Success",
   updated: "Updated Success",
   delete: "Delete Success",
+  search: "Search Success",
   selectOne: "SelectOne Success",
   selectAll: "SelectAll Success",
 };
