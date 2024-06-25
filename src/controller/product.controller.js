@@ -28,6 +28,21 @@ export default class ProductController {
       return SendError(res, 500, EMessage.Server, error);
     }
   }
+  static async searchProduct(req,res){
+    try {
+     // const page = parseInt(`${req.query.page}`);
+      const { search } = req.query;
+     // const offset = page && page > 0 ? page - 1 : 0;
+      const searchProduct = `select * from product where name LIKE %${search}%`;
+      con.query(searchProduct,function(err,result){
+        if(err) return SendError(res,EMessage.NotFound,err);
+        if(!result[0])  return SendError(res,EMessage.NotFound,err);
+        return SendSuccess(res,SMessage.selectAll,result);
+      })
+    } catch (error) {
+      return SendError(res, 500, EMessage.Server, error);
+    }
+  }
   static async insert(req, res) {
     try {
       const { product_type, name, detail, price } = req.body;

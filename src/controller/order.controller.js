@@ -49,11 +49,11 @@ export default class OrderController {
         if (!result[0])
           return SendError(res, 404, EMessage.NotFound + " table");
         const mysql =
-          "insert into orders (table_id,totalPrice,billOR,status,createdAt,updatedAt) values (?,?,?,?,?)";
+          "insert into orders (table_id,totalPrice,billQR,status,createdAt,updatedAt) values (?,?,?,?,?)";
         con.query(
           mysql,
           [
-            result[0]['table_id'],
+            result[0]['TID'],
             totalPrice,
             image_url,
             OrderStatus.pedding,
